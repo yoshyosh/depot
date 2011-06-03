@@ -2,8 +2,10 @@ class OrdersController < ApplicationController
   # GET /orders
   # GET /orders.xml
   def index
-    @orders = Order.all
-
+    @orders = Order.paginate :page => params[:page], :order => 'created_at desc',
+		:per_page => 10
+	@cart = current_cart
+	
     respond_to do |format|
       format.html # index.html.erb
       format.xml  { render :xml => @orders }
